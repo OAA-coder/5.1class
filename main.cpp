@@ -4,87 +4,100 @@
 #include <stdexcept>
 
 int main() {
-    std::cout << "Fixed Length String Array Demo Program\n";
+    setlocale(LC_ALL, "Russian");
+    std::cout << "Демонстрационная программа: Массив строк фиксированной длины\n";
 
     try {
         // Создаем два массива для демонстрации
-        int size = inputNumber("Enter array size: ");
-        int str_len = inputNumber("Enter maximum string length: ");
+        int size = inputNumber("Введите размер массивов: ");
+        int str_len = inputNumber("Введите максимальную длину строк: ");
 
+        // Инициализация массивов
         FixedLengthStringArray array1(size, str_len);
         FixedLengthStringArray array2(size, str_len);
 
         // Заполнение первого массива
-        std::cout << "\nFilling first array:\n";
+        std::cout << "\nЗаполнение первого массива:\n";
         for (int i = 0; i < size; ++i) {
-            std::string prompt = "Enter string " + std::to_string(i + 1) + " (max " + std::to_string(str_len) + " chars): ";
+            std::string prompt = "Введите строку " + std::to_string(i + 1) +
+                " (макс. " + std::to_string(str_len) + " символов): ";
             array1[i] = inputString(prompt, str_len);
         }
 
         // Заполнение второго массива
-        std::cout << "\nFilling second array:\n";
+        std::cout << "\nЗаполнение второго массива:\n";
         for (int i = 0; i < size; ++i) {
-            std::string prompt = "Enter string " + std::to_string(i + 1) + " (max " + std::to_string(str_len) + " chars): ";
+            std::string prompt = "Введите строку " + std::to_string(i + 1) +
+                " (макс. " + std::to_string(str_len) + " символов): ";
             array2[i] = inputString(prompt, str_len);
         }
 
-        // Основное меню
+        // Основное меню программы
         while (true) {
-            std::cout << "\nMenu:\n";
-            std::cout << "1. Print element from first array by index\n";
-            std::cout << "2. Print all elements of first array\n";
-            std::cout << "3. Print element from second array by index\n";
-            std::cout << "4. Print all elements of second array\n";
-            std::cout << "5. Concatenate arrays element-wise\n";
-            std::cout << "6. Merge arrays with duplicate removal\n";
-            std::cout << "7. Exit\n";
+            std::cout << "\nМеню:\n";
+            std::cout << "1. Вывести элемент первого массива по индексу\n";
+            std::cout << "2. Вывести все элементы первого массива\n";
+            std::cout << "3. Вывести элемент второго массива по индексу\n";
+            std::cout << "4. Вывести все элементы второго массива\n";
+            std::cout << "5. Объединить массивы поэлементно\n";
+            std::cout << "6. Объединить массивы с удалением дубликатов\n";
+            std::cout << "7. Выход\n";
 
-            int choice = inputNumber("Select option: ", 1);
+            int choice = inputNumber("Выберите пункт меню: ", 1);
 
             try {
                 switch (choice) {
                 case 1: {
-                    int index = inputNumber("Enter index: ", 0);
+                    // Вывод элемента первого массива по индексу
+                    int index = inputNumber("Введите индекс: ", 0);
                     array1.printElement(index);
                     break;
                 }
                 case 2:
+                    // Вывод всех элементов первого массива
                     array1.printAll();
                     break;
                 case 3: {
-                    int index = inputNumber("Enter index: ", 0);
+                    // Вывод элемента второго массива по индексу
+                    int index = inputNumber("Введите индекс: ", 0);
                     array2.printElement(index);
                     break;
                 }
                 case 4:
+                    // Вывод всех элементов второго массива
                     array2.printAll();
                     break;
                 case 5: {
+                    // Конкатенация массивов
                     FixedLengthStringArray result = array1.concatenate(array2);
-                    std::cout << "Concatenation result:\n";
+                    std::cout << "Результат объединения:\n";
                     result.printAll();
                     break;
                 }
                 case 6: {
+                    // Слияние массивов с удалением дубликатов
                     FixedLengthStringArray result = array1.mergeUnique(array2);
-                    std::cout << "Merge with duplicate removal result:\n";
+                    std::cout << "Результат слияния с удалением дубликатов:\n";
                     result.printAll();
                     break;
                 }
                 case 7:
-                    std::cout << "Exiting program.\n";
+                    // Выход из программы
+                    std::cout << "Завершение программы.\n";
                     return 0;
                 default:
-                    std::cout << "Invalid choice. Try again.\n";
+                    std::cout << "Неверный выбор. Попробуйте снова.\n";
                 }
             }
             catch (const std::exception& e) {
-                std::cerr << "Error: " << e.what() << std::endl;
+                // Обработка ошибок в операциях меню
+                std::cerr << "Ошибка: " << e.what() << std::endl;
             }
         }
     }
     catch (const std::exception& e) {
-        std::cerr << "Fatal error: " << e.what() << std::endl;
+        // Обработка критических ошибок инициализации
+        std::cerr << "Критическая ошибка: " << e.what() << std::endl;
         return 1;
     }
 
